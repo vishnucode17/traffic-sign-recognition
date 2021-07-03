@@ -1,13 +1,10 @@
 from django.shortcuts import render
 import numpy as np
 import tensorflow as tf
-import plotly as plt
 from PIL import Image
 from keras.models import load_model
 from urllib.request import Request
 import urllib.request as req
-from plotly.offline import plot
-import plotly.graph_objs as go
 # Create your views here.
 label_dict={
     0:"speed limit 20 km/h",
