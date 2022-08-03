@@ -5,6 +5,7 @@ from PIL import Image
 from keras.models import load_model
 from urllib.request import Request
 import urllib.request as req
+import requests
 # Create your views here.
 label_dict={
     0:"speed limit 20 km/h",
@@ -61,8 +62,7 @@ def Home(request):
     if request.method == "POST":
         try:
             img_url=request.POST['img_url']
-            test_img=req.urlretrieve(img_url,"new_image.png")
-            test_image=Image.open("new_image.png").convert('RGB')
+            test_image=Image.open(requests.get(img_url, stream=True).raw)
             test_image=test_image.resize((30,30))
             test_image=np.array(test_image)
             test_image=test_image/255
@@ -70,7 +70,7 @@ def Home(request):
             new_img_pred=model.predict(np.expand_dims(test_image,0))
             a=list(new_img_pred[0]*100)
             result=label_dict[image_pred]
-            
         except:
-            result="Image not loaded properly!"
+            result="Image not loaded properly" 
+        
     return render(request,'index.html',{'result':result,'img_url':img_url,'a':a})
