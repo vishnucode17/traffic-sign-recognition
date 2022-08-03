@@ -1,1 +1,0 @@
-web: gunicorn traffic_sign_recog.wsgi
